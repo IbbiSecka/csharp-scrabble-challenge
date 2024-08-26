@@ -14,25 +14,32 @@ namespace csharp_scrabble_challenge.Main
         public Dictionary<char, int> letterScore;
         public Scrabble(string word)
         {            
-            //TODO: do something with the word variable
-            word = word.ToLower();
-            
+            word = word.ToUpper();
 
+            letterScore = Letters.getPair();
         }
 
         public int score()
         {
+            if (string.IsNullOrEmpty(word))
+            {
+                return 0;
+            }
+
             int totalScore = 0;
-            //TODO: score calculation code goes here
-            int score = 0;
+            
 
             var charArray = word.ToCharArray(); //Populate charArray with word split up
 
-            charArray.ToList().ForEach(x =>
+            foreach (char letter in charArray)
             {
-                int score = letterScore[Char.ToLower(x)];
-                totalScore = totalScore + score;
-            }); // Adding together each letter's score, populating it in the totalscore variable
+                // Check if the character exists in the dictionary
+                if (letterScore.ContainsKey(letter))
+                {
+                    totalScore += letterScore[letter];
+                }
+            }
+            // Adding together each letter's score, populating it in the totalscore variable
             Console.WriteLine(totalScore);
             return totalScore;
         }
